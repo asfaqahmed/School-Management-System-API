@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Fee
 
-# Register your models here.
+@admin.register(Fee)
+class FeeAdmin(admin.ModelAdmin):
+    list_display = ('student', 'amount', 'due_date', 'status')
+    list_filter = ('status', 'due_date')
+    search_fields = ('student__first_name', 'student__last_name')

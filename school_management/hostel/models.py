@@ -1,13 +1,17 @@
 from django.db import models
 from students.models import Student
 
-class HostelRoom(models.Model):
-    room_number = models.CharField(max_length=10)
+class Room(models.Model):
+    number = models.CharField(max_length=10)
     capacity = models.IntegerField()
-    current_occupants = models.IntegerField()
+
+    def __str__(self):
+        return f"Room {self.number}"
 
 class HostelAssignment(models.Model):
-    student = models.ForeignKey(Student, on_delete=models.CASCADE)
-    room = models.ForeignKey(HostelRoom, on_delete=models.CASCADE)
-    check_in_date = models.DateField()
-    check_out_date = models.DateField(null=True, blank=True)
+    student = models.OneToOneField(Student, on_delete=models.CASCADE)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    assigned_date = models.DateField()
+
+    def __str__(self):
+        return f"{self.student} assigned to Room {self.room.number}"
